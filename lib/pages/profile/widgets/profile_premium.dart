@@ -15,23 +15,26 @@ class ProfilePremium extends StatelessWidget {
         children: [
           Image.asset('assets/images/Vector.png'),
           const SizedBox(width: 16),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Join Premium!',
                   style: TextStyle(
                       color: ColorApp.platformColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 24),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Text(
                   'Enjoy watching Full-HD movies, without restrictions and without ads',
-                  style: TextStyle(color: ColorApp.textColor, fontSize: 12),
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge!.color,
+                    fontSize: 12,
+                  ),
                 ),
               ],
             ),

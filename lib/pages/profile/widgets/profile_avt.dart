@@ -6,21 +6,24 @@ class ProfileAvt extends StatelessWidget {
   const ProfileAvt({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Column(
         children: [
-          AvtWidgets(),
-          SizedBox(height: 8),
+          const AvtWidgets(),
+          const SizedBox(height: 8),
           Text(
             'Andrew Ainsley',
             style: TextStyle(
-                color: ColorApp.textColor,
+                color: Theme.of(context).textTheme.bodyLarge!.color,
                 fontSize: 18,
                 fontWeight: FontWeight.bold),
           ),
           Text(
             'andrew_ainsley@yourdomain.com',
-            style: TextStyle(color: ColorApp.textColor, fontSize: 14),
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodyLarge!.color,
+              fontSize: 14,
+            ),
           ),
         ],
       ),

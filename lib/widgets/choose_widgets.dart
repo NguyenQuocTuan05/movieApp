@@ -6,9 +6,11 @@ class ChooseWidgets extends StatelessWidget {
     super.key,
     required this.choose,
     required this.question,
+    required this.onTap,
   });
   final String question;
   final String choose;
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -16,19 +18,22 @@ class ChooseWidgets extends StatelessWidget {
       children: [
         Text(
           question,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
-            color: ColorApp.textColor,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
           ),
         ),
         const SizedBox(
           width: 10,
         ),
-        Text(
-          choose,
-          style: const TextStyle(
-            fontSize: 14,
-            color: ColorApp.platformColor,
+        GestureDetector(
+          onTap: onTap,
+          child: Text(
+            choose,
+            style: const TextStyle(
+              fontSize: 14,
+              color: ColorApp.platformColor,
+            ),
           ),
         ),
       ],

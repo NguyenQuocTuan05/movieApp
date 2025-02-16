@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:iconly/iconly.dart';
 import 'package:movie_app/apps/configs/color_app.dart';
+import 'package:movie_app/pages/download/download_pages.dart';
+import 'package:movie_app/pages/explore/explore_pages.dart';
 import 'package:movie_app/pages/home/home_pages.dart';
 import 'package:movie_app/pages/mylist/mylist_pages.dart';
 import 'package:movie_app/pages/profile/profile_pages.dart';
@@ -14,23 +17,10 @@ class RootsPages extends StatefulWidget {
 class _RootsPagesState extends State<RootsPages> {
   final List<Widget> listPages = [
     const HomePages(),
-    const Center(
-      child: Text(
-        'Explore Page',
-        style: TextStyle(
-          fontSize: 24,
-        ),
-      ),
-    ),
+    const ExplorePages(),
     const MylistPages(),
-    const Center(
-      child: Text(
-        'Download Page',
-        style: TextStyle(
-          fontSize: 24,
-        ),
-      ),
-    ),
+    DownloadPages(),
+    const ProfilePages(),
   ];
 
   int _selectedIndex = 0;
@@ -40,7 +30,7 @@ class _RootsPagesState extends State<RootsPages> {
     return Scaffold(
       body: listPages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: ColorApp.backgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         currentIndex: _selectedIndex,
         onTap: (index) {
           setState(() {
@@ -49,23 +39,33 @@ class _RootsPagesState extends State<RootsPages> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(
+              IconlyBold.home,
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
+            icon: Icon(
+              IconlyBold.discovery,
+            ),
             label: 'Explore',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
+            icon: Icon(
+              IconlyBold.document,
+            ),
             label: 'My List',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.download),
+            icon: Icon(
+              IconlyBold.download,
+            ),
             label: 'Download',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(
+              IconlyBold.profile,
+            ),
             label: 'Profile',
           ),
         ],

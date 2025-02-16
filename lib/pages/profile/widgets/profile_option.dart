@@ -18,14 +18,18 @@ class ProfileOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: ColorApp.textColor),
+      contentPadding: EdgeInsets.zero,
+      leading: Icon(icon, color: Theme.of(context).textTheme.bodyLarge!.color),
       title: Text(
         title,
-        style: const TextStyle(color: ColorApp.textColor),
+        style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color),
       ),
       trailing: trailing ??
-          const Icon(Icons.arrow_forward_ios,
-              color: ColorApp.textColor, size: 16),
+          Icon(
+            Icons.arrow_forward_ios,
+            color: Theme.of(context).textTheme.bodyLarge!.color,
+            size: 16,
+          ),
       onTap: onTap,
     );
   }

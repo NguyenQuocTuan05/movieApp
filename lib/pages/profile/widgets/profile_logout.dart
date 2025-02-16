@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/apps/configs/color_app.dart';
 import 'package:movie_app/apps/routers/routers_name.dart';
+import 'package:movie_app/pages/search/widgets/search_line.dart';
+import 'package:movie_app/widgets/both_button.dart';
 
 class ProfileLogout extends StatelessWidget {
   const ProfileLogout({super.key});
@@ -20,77 +22,25 @@ class ProfileLogout extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
-                color: ColorApp.backgroundColor,
-              ),
-            ),
-          ),
+          const SearchLine(),
           const SizedBox(height: 24),
-          const Text(
+          Text(
             'Are you sure you want to log out?',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: ColorApp.textColor,
+              color: Theme.of(context).textTheme.bodyLarge!.color,
             ),
           ),
           const SizedBox(
             height: 24,
           ),
-          Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 18),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: ColorApp.backgroundColor,
-                    ),
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: ColorApp.textColor,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 12,
-              ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacementNamed(
-                        context, RoutersName.welcomePages);
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 18),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: ColorApp.platformColor,
-                    ),
-                    child: const Text(
-                      'Yes, Logout',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: ColorApp.textColor,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          BothButton(
+            textFirst: 'Cancel',
+            textSecond: 'Yes, Logout',
+            onTapFirst: () => Navigator.pop(context),
+            onTapSecond: () => Navigator.pushNamedAndRemoveUntil(
+                context, RoutersName.welcomePages, (route) => false),
           ),
         ],
       ),

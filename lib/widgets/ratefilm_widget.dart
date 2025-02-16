@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/apps/configs/color_app.dart';
-import 'package:movie_app/model/movie.dart';
-import 'package:movie_app/model/rate.dart';
+import 'package:movie_app/apps/helper/image_film.dart';
 
 class RatefilmWidget extends StatelessWidget {
-  final Rate rate;
-  final Movie movie;
+  final String image;
+  final double rating;
 
-  const RatefilmWidget({super.key, required this.rate, required this.movie});
+  const RatefilmWidget({
+    super.key,
+    required this.image,
+    required this.rating,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,9 @@ class RatefilmWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         image: DecorationImage(
-          image: NetworkImage(rate.getPosterUrlRate()),
+          image: NetworkImage(
+            ImageFilm(poster_path: image).getPosterUrl(),
+          ),
           fit: BoxFit.cover,
         ),
       ),
@@ -31,7 +36,7 @@ class RatefilmWidget extends StatelessWidget {
               color: ColorApp.platformColor,
             ),
             child: Text(
-              rate.vote_average?.toStringAsFixed(1) ?? 'N/A',
+              rating.toString(),
               style: const TextStyle(color: Colors.white),
             ),
           ),

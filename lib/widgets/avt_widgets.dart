@@ -17,7 +17,8 @@ class AvtWidgets extends StatelessWidget {
         CircleAvatar(
           radius: 16,
           backgroundColor: ColorApp.platformColor,
-          child: Icon(Icons.edit, size: 16, color: ColorApp.backgroundColor),
+          child:
+              Icon(Icons.edit, size: 16, color: ColorApp.backgroundColor_dark),
         ),
       ],
     );

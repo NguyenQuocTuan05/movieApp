@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/apps/configs/color_app.dart';
+import 'package:movie_app/model/movie.dart';
+import 'package:movie_app/model/video.dart';
+import 'package:movie_app/pages/details/widgets/details_list.dart';
 import 'package:movie_app/pages/details/widgets/details_trailers.dart';
+import 'package:movie_app/provider/details_provider.dart';
+import 'package:provider/provider.dart';
 
 class DetailsTab extends StatefulWidget {
-  const DetailsTab({super.key});
-
+  const DetailsTab({
+    super.key,
+    required this.id,
+  });
+  final int id;
   @override
   State<DetailsTab> createState() => _DetailsTabState();
 }
@@ -16,7 +24,10 @@ class _DetailsTabState extends State<DetailsTab>
   void initState() {
     // TODO: implement initState
 
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
+    Future.microtask(() {
+      context.read<DetailsProvider>().fetchMovieSilimar(widget.id);
+    });
   }
 
   @override
@@ -59,21 +70,71 @@ class _DetailsTabState extends State<DetailsTab>
                 child: Text("More Like This"),
               ),
             ),
-            Tab(
-              child: FittedBox(
-                fit: BoxFit.fitWidth,
-                child: Text("Comments"),
-              ),
-            ),
           ],
         ),
-        Expanded(
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.8,
           child: TabBarView(
             controller: _tabController,
-            children: const [
-              DetailsTrailers(),
-              Center(child: Text("More Like This Content")),
-              Center(child: Text("Comments Content")),
+            children: [
+              FutureBuilder(
+                future: context.watch<DetailsProvider>().videoMovie,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Error: ${snapshot.error}',
+                      ),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'No movies available.',
+                      ),
+                    );
+                  }
+                  final video = snapshot.data as List<Video>;
+                  return DetailsTrailers(
+                    video: video,
+                  );
+                },
+              ),
+              FutureBuilder(
+                future: context.watch<DetailsProvider>().similarMovie,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text('No movies available.'),
+                    );
+                  }
+                  final movies = snapshot.data! as List<Movie>;
+                  final movieList = movies.map<Map<String, dynamic>>((movie) {
+                    return {
+                      'poster_path': movie.poster_path,
+                      'vote_average': movie.vote_average,
+                      'title': movie.title,
+                      'genres': movie.getGenresAsString(),
+                      'overview': movie.overview,
+                      'release_date': movie.release_date,
+                      'original_language': movie.getOriginalLanguageFull(),
+                      'id': movie.id,
+                    };
+                  }).toList();
+                  return DetailsList(movies: movieList);
+                },
+              ),
             ],
           ),
         ),

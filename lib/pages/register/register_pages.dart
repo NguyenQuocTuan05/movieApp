@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/apps/configs/color_app.dart';
 import 'package:movie_app/apps/routers/routers_name.dart';
-import 'package:movie_app/main.dart';
 import 'package:movie_app/pages/register/widgets/register_form.dart';
-import 'package:movie_app/pages/register/widgets/register_remember.dart';
 import 'package:movie_app/pages/register/widgets/register_social.dart';
-import 'package:movie_app/provider/home_provider.dart';
 import 'package:movie_app/provider/register_provider.dart';
 import 'package:movie_app/widgets/button_widgets.dart';
 import 'package:movie_app/widgets/choose_widgets.dart';
@@ -20,32 +17,27 @@ class RegisterPages extends StatefulWidget {
 }
 
 class _RegisterPagesState extends State<RegisterPages> {
-  void loginCLick() async {
-    try {
-      bool login = await context.read<RegisterProvider>().login();
-      if (login == true) {
-        Navigator.pushNamed(context, RoutersName.homePages);
-      } else {
-        print('login fails');
-      }
-    } catch (e) {
-      print('Error :::: $e');
-    }
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<RegisterProvider>().resetForm();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorApp.backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: ColorApp.backgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
           },
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back,
-            color: ColorApp.textColor,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
             size: 28,
           ),
         ),
@@ -59,11 +51,11 @@ class _RegisterPagesState extends State<RegisterPages> {
               const SizedBox(
                 height: 40,
               ),
-              const Text(
+              Text(
                 'Create Your Account',
                 style: TextStyle(
                   fontSize: 32,
-                  color: ColorApp.textColor,
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -76,27 +68,23 @@ class _RegisterPagesState extends State<RegisterPages> {
               ),
               const RegisterForm(labelText: 'Password', prefixIcon: Icons.lock),
               const SizedBox(
-                height: 20,
+                height: 50,
               ),
-              RegisterRemember(
-                onChanged: (bool newValue) {
-                  print('Checkbox Value: $newValue');
-                },
-                value: false,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: () {
-                  // Navigator.pushNamed(context, RoutersName.rootsPages);
-                  // context.read<RegisterProvider>().login();
-                  loginCLick();
-                },
-                child: const ButtonWidgets(
-                  buttonText: 'Sign up',
-                ),
-              ),
+              Consumer<RegisterProvider>(builder: (context, provider, child) {
+                return GestureDetector(
+                  onTap: () {
+                    provider.register(context);
+                    if (provider.emailError == null &&
+                        provider.passwordError == null) {
+                      Navigator.pushNamed(context, RoutersName.signinPages);
+                    }
+                  },
+                  child: const ButtonWidgets(
+                    color: ColorApp.platformColor,
+                    buttonText: 'Sign up',
+                  ),
+                );
+              }),
               const SizedBox(
                 height: 40,
               ),
@@ -110,8 +98,14 @@ class _RegisterPagesState extends State<RegisterPages> {
               const SizedBox(
                 height: 40,
               ),
-              const ChooseWidgets(
-                  choose: 'Sign in', question: 'Already have an account?'),
+              ChooseWidgets(
+                choose: 'Sign in',
+                question: 'Already have an account?',
+                onTap: () {
+                  Navigator.pushReplacementNamed(
+                      context, RoutersName.signinPages);
+                },
+              ),
             ],
           ),
         ),

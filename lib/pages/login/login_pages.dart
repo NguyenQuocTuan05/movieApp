@@ -2,25 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/apps/configs/color_app.dart';
 import 'package:movie_app/apps/routers/routers_name.dart';
 import 'package:movie_app/pages/login/widgets/login_socail.dart';
+import 'package:movie_app/provider/social_provider.dart';
 import 'package:movie_app/widgets/button_widgets.dart';
 import 'package:movie_app/widgets/choose_widgets.dart';
 import 'package:movie_app/widgets/line_widgets.dart';
+import 'package:provider/provider.dart';
 
 class LoginPages extends StatelessWidget {
   const LoginPages({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorApp.backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: ColorApp.backgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
           },
-          child: const Icon(
+          child: Icon(
             Icons.arrow_back,
-            color: ColorApp.textColor,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
             size: 28,
           ),
         ),
@@ -39,26 +41,44 @@ class LoginPages extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              const Text(
+              Text(
                 'Let’s you in',
                 style: TextStyle(
                   fontSize: 48,
-                  color: ColorApp.textColor,
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(
                 height: 30,
               ),
-              const LoginSocail(
-                  buttonText: 'Continue with Facebook',
-                  imagePath: 'assets/images/facebook.png'),
+              Consumer<SocialProvider>(
+                builder: (context, provider, child) {
+                  return GestureDetector(
+                    onTap: () async {
+                      await provider.signInWithFacebook(context);
+                    },
+                    child: const LoginSocail(
+                        buttonText: 'Continue with Facebook',
+                        imagePath: 'assets/images/facebook.png'),
+                  );
+                },
+              ),
               const SizedBox(
                 height: 16,
               ),
-              const LoginSocail(
-                buttonText: 'Continue with Google',
-                imagePath: 'assets/images/google.png',
+              Consumer<SocialProvider>(
+                builder: (context, provider, child) {
+                  return GestureDetector(
+                    onTap: () async {
+                      await provider.signInWithGoogle(context);
+                    },
+                    child: const LoginSocail(
+                      buttonText: 'Continue with Google',
+                      imagePath: 'assets/images/google.png',
+                    ),
+                  );
+                },
               ),
               const SizedBox(
                 height: 16,
@@ -75,15 +95,23 @@ class LoginPages extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, RoutersName.registerPages);
+                  Navigator.pushNamed(context, RoutersName.signinPages);
                 },
-                child: const ButtonWidgets(buttonText: 'Sign in with password'),
+                child: const ButtonWidgets(
+                  buttonText: 'Sign in with password',
+                  color: ColorApp.platformColor,
+                ),
               ),
               const SizedBox(
                 height: 30,
               ),
-              const ChooseWidgets(
-                  choose: 'Sign up', question: 'Don’t have an account?'),
+              ChooseWidgets(
+                choose: 'Sign up',
+                question: 'Don’t have an account?',
+                onTap: () {
+                  Navigator.pushNamed(context, RoutersName.registerPages);
+                },
+              ),
             ],
           ),
         ),

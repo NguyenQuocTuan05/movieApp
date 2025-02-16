@@ -94,6 +94,7 @@ class WelcomPages extends StatelessWidget {
                 },
                 child: const ButtonWidgets(
                   buttonText: 'Get Started',
+                  color: ColorApp.platformColor,
                 ),
               ),
             ],

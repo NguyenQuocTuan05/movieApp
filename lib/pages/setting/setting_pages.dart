@@ -5,27 +5,24 @@ import 'package:movie_app/pages/setting/widgets/setting_nation.dart';
 import 'package:movie_app/widgets/avt_widgets.dart';
 import 'package:movie_app/widgets/button_widgets.dart';
 
-class SettingPages extends StatefulWidget {
+class SettingPages extends StatelessWidget {
   const SettingPages({super.key});
-
-  @override
-  _SettingPagesState createState() => _SettingPagesState();
-}
-
-class _SettingPagesState extends State<SettingPages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorApp.backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: ColorApp.backgroundColor,
-        title: const Text(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        title: Text(
           'Edit Profile',
-          style: TextStyle(fontSize: 24, color: ColorApp.textColor),
+          style: TextStyle(
+            fontSize: 24,
+            color: Theme.of(context).textTheme.bodyLarge!.color,
+          ),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          color: ColorApp.textColor,
+          color: Theme.of(context).textTheme.bodyLarge!.color,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -71,7 +68,10 @@ class _SettingPagesState extends State<SettingPages> {
                 height: 60,
               ),
               // Update Button
-              ButtonWidgets(buttonText: 'Update')
+              ButtonWidgets(
+                buttonText: 'Update',
+                color: ColorApp.platformColor,
+              )
             ],
           ),
         ),

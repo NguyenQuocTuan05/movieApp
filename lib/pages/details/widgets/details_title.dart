@@ -3,7 +3,15 @@ import 'package:movie_app/apps/configs/color_app.dart';
 import 'package:movie_app/pages/details/widgets/details_box.dart';
 
 class DetailsTitle extends StatelessWidget {
-  const DetailsTitle({super.key});
+  final String rating;
+  final int? year;
+  final String? country;
+  const DetailsTitle({
+    super.key,
+    required this.rating,
+    required this.year,
+    required this.country,
+  });
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -14,9 +22,9 @@ class DetailsTitle extends StatelessWidget {
         const SizedBox(
           width: 8,
         ),
-        const Text(
-          '9.8',
-          style: TextStyle(
+        Text(
+          rating,
+          style: const TextStyle(
             fontSize: 12,
             color: ColorApp.platformColor,
           ),
@@ -31,11 +39,11 @@ class DetailsTitle extends StatelessWidget {
         const SizedBox(
           width: 12,
         ),
-        const Text(
-          '2022',
+        Text(
+          year.toString(),
           style: TextStyle(
             fontSize: 14,
-            color: ColorApp.textColor,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
           ),
         ),
         const SizedBox(
@@ -45,7 +53,9 @@ class DetailsTitle extends StatelessWidget {
         const SizedBox(
           width: 12,
         ),
-        const DetailsBox(text: 'United States'),
+        DetailsBox(
+          text: country ?? '',
+        ),
         const SizedBox(
           width: 12,
         ),

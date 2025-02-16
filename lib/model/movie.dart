@@ -1,47 +1,91 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-const Map<int, String> genreMap = {
+Map<int, String> genreMap = {
   28: "Action",
-  878: "Science Fiction",
   12: "Adventure",
-  53: "Thriller",
-  14: "Fantasy",
-  35: "Comedy",
   16: "Animation",
+  35: "Comedy",
+  80: "Crime",
+  99: "Documentary",
+  18: "Drama",
   10751: "Family",
+  14: "Fantasy",
+  36: "History",
+  27: "Horror",
+  10402: "Music",
+  9648: "Mystery",
+  10749: "Romance",
+  878: "Science Fiction",
+  53: "Thriller",
+  10752: "War",
+  37: "Western",
+  10770: "TV Movie",
+};
+Map<String, String> languageMap = {
+  'en': 'English',
+  'es': 'Spanish',
+  'fr': 'French',
+  'de': 'German',
+  'it': 'Italian',
+  'ja': 'Japanese',
+  'ko': 'Korean',
+  'zh': 'Chinese',
+  'nl': 'Netherlands',
+  'hi': 'India',
+  'lv': 'Latvian',
+  'pt': 'Portuguese',
+  'ro': 'Romania'
 };
 
 class Movie {
-  String? original_title;
+  String? title;
   String? poster_path;
   List<int>? genre_ids;
   double? vote_average;
+  String? overview;
+  int? release_date;
+  String? original_language;
+  int? id;
   Movie({
-    this.original_title,
+    this.title,
     this.poster_path,
     this.genre_ids,
     this.vote_average,
+    this.overview,
+    this.release_date,
+    this.original_language,
+    this.id,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'original_title': original_title,
+      'title': title,
       'poster_path': poster_path,
       'genre_ids': genre_ids,
       'vote_average': vote_average,
+      'overview': overview,
+      'release_date': release_date,
+      'original_language': original_language,
+      'id': id,
     };
   }
 
   factory Movie.fromMap(Map<String, dynamic> map) {
     return Movie(
-      original_title: map['original_title'] as String?,
+      title: map['title'] as String?,
       poster_path: map['poster_path'] as String?,
       genre_ids: map['genre_ids'] != null
           ? List<int>.from(map['genre_ids'].map((e) => e as int))
           : [],
       vote_average:
           map['vote_average'] != null ? map['vote_average'] as double : null,
+      overview: map['overview'] != null ? map['overview'] as String : null,
+      release_date: map['release_date'] != null
+          ? DateTime.parse(map['release_date'] as String).year
+          : null,
+      original_language: map['original_language'] as String?,
+      id: map['id'] as int?,
     );
   }
 
@@ -56,6 +100,14 @@ class Movie {
       return genre_ids!.map((id) => genreMap[id] ?? 'Unknown Genre').join(', ');
     }
     return 'No Genres Available';
+  }
+
+  String getOriginalLanguageFull() {
+    if (original_language != null &&
+        languageMap.containsKey(original_language)) {
+      return languageMap[original_language] ?? 'Unknown Language';
+    }
+    return 'Unknown Language';
   }
 
   String toJson() => json.encode(toMap());

@@ -1,29 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/apps/configs/color_app.dart';
+import 'package:movie_app/provider/mylist_provider.dart';
+import 'package:provider/provider.dart';
 
 class DetailsFilm extends StatelessWidget {
-  const DetailsFilm({super.key});
+  final String names;
+  final int id;
+  const DetailsFilm({
+    super.key,
+    required this.names,
+    required this.id,
+  });
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Expanded(
+        Expanded(
           child: Text(
-            'Avatar: The Way of Water',
+            names,
             style: TextStyle(
               fontSize: 24,
-              color: ColorApp.textColor,
+              color: Theme.of(context).textTheme.bodyLarge!.color,
             ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
         ),
-        Image.asset(
-          'assets/images/bookmark.png',
+        Consumer<MylistProvider>(
+          builder: (context, provider, child) {
+            return GestureDetector(
+              onTap: () {
+                provider.handleSaveList(id, names, context);
+              },
+              child: Image.asset(
+                'assets/images/bookmark.png',
+                color: Theme.of(context).textTheme.bodyLarge!.color,
+              ),
+            );
+          },
         ),
         const SizedBox(
           width: 20,
         ),
         Image.asset(
           'assets/images/send.png',
+          color: Theme.of(context).textTheme.bodyLarge!.color,
         ),
       ],
     );

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/pages/play/widgets/play_controls.dart';
-import 'package:movie_app/pages/play/widgets/play_info.dart';
-import 'package:video_player/video_player.dart';
+import 'package:flutter/services.dart';
+import 'package:movie_app/apps/configs/color_app.dart';
+import 'package:movie_app/apps/helper/video_film.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlayPages extends StatefulWidget {
   const PlayPages({super.key});
@@ -11,64 +12,93 @@ class PlayPages extends StatefulWidget {
 }
 
 class _PlayPagesState extends State<PlayPages> {
-  late VideoPlayerController _controller;
-  bool _showControls = true;
-
+  YoutubePlayerController? _controller;
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.networkUrl(Uri.parse(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'))
-      ..initialize().then((_) {
-        setState(() {});
-      });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeController();
+      _setLandscapeMode();
+    });
+  }
+
+  void _setLandscapeMode() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+  }
+
+  void _initializeController() {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final videoFilm = args['videoFilm'] as VideoFilm;
+    final String videoUrl = videoFilm.getVideoUrl();
+    String videoId = YoutubePlayer.convertUrlToId(videoUrl)!;
+
+    _controller = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: const YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+      ),
+    );
+    setState(() {});
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final name = args['name'] as String;
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          // Video Player
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                _showControls = !_showControls;
-              });
-            },
-            child: Center(
-              child: _controller.value.isInitialized
-                  ? AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
-                    )
-                  : const CircularProgressIndicator(),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: _controller == null
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                YoutubePlayer(
+                  controller: _controller!,
+                  showVideoProgressIndicator: true,
+                  progressIndicatorColor: Colors.red,
+                  progressColors: const ProgressBarColors(
+                    playedColor: Colors.red,
+                    handleColor: Colors.redAccent,
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      name,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: ColorApp.textColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-
-          // Overlay Controls
-          if (_showControls)
-            Positioned.fill(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Top Bar
-                  const PlayInfo(),
-
-                  // Bottom Controls
-                  PlayControls(controller: _controller)
-                ],
-              ),
-            ),
-        ],
-      ),
     );
   }
 }

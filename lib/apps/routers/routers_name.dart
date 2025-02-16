@@ -11,4 +11,16 @@ class RoutersName {
   static const profilePages = "/profilePages";
   static const settingPages = "/settingPages";
   static const rootsPages = "/rootsPages";
+  static const releasesPages = "/releasesPages";
+  static const explorePages = "/explorePages";
+  static const searchPages = "/searchPages";
+  static const premiumPages = "/premiumPages";
+  static const paymentPages = "/paymentPages";
+  static const cardPages = "/cardPages";
+  static const summaryPages = "/summaryPage";
+  static const notificationPages = "/notificationPages";
+  static const downloadOptionPages = "/downloadOptionPages";
+  static const signinPages = "/signinPages";
+  static const downloadPages = "/downloadPages";
+  static const bellPages = 'bellPages';
 }

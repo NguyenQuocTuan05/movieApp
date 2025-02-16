@@ -1,53 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/provider/home_provider.dart';
+import 'package:movie_app/apps/helper/image_film.dart';
+import 'package:movie_app/apps/routers/routers_name.dart';
 import 'package:movie_app/widgets/ratefilm_widget.dart';
-import 'package:provider/provider.dart';
 
 class TopList extends StatelessWidget {
-  final Future future;
-  const TopList({super.key, required this.future});
+  final List<Map<String, dynamic>> movies;
+  const TopList({
+    super.key,
+    required this.movies,
+  });
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      // future: Provider.of<HomeProvider>(context, listen: false).getRateMovies(),
-      future: future,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          );
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(
-            child: Text('No movies available.'),
-          );
-        }
-
-        final rates = snapshot.data!;
-        final movies = snapshot.data!;
-
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 15,
-              childAspectRatio: 7 / 10,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 15,
+          crossAxisSpacing: 15,
+          childAspectRatio: 7 / 10,
+        ),
+        itemCount: movies.length,
+        itemBuilder: (BuildContext context, int index) {
+          final movie = movies[index];
+          final posterPath = movie['poster_path'];
+          final voteAverage = movie['vote_average'];
+          final title = movie['title'];
+          final genres = movie['genres'];
+          final overview = movie['overview'];
+          final original_language = movie['original_language'];
+          final release_date = movie['release_date'];
+          final id = movie['id'];
+          final imageFilm = ImageFilm(poster_path: posterPath);
+          return GestureDetector(
+            onTap: () => Navigator.pushNamed(
+              context,
+              RoutersName.detailsPages,
+              arguments: {
+                'poster_path': posterPath,
+                'vote_average': voteAverage,
+                'title': title,
+                'genres': genres,
+                'overview': overview,
+                'original_language': original_language,
+                'release_date': release_date,
+                'id': id,
+              },
             ),
-            itemCount: 10,
-            itemBuilder: (BuildContext context, int index) {
-              return RatefilmWidget(
-                rate: rates[index],
-                movie: movies[index],
-              );
-            },
-          ),
-        );
-      },
+            child: RatefilmWidget(
+              image: imageFilm.getPosterUrl(),
+              rating: double.parse(
+                voteAverage.toStringAsFixed(1),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

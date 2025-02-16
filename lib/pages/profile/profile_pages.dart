@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/apps/configs/color_app.dart';
+import 'package:iconly/iconly.dart';
+import 'package:movie_app/apps/routers/routers_name.dart';
 import 'package:movie_app/pages/profile/widgets/profile_avt.dart';
 import 'package:movie_app/pages/profile/widgets/profile_logout.dart';
 import 'package:movie_app/pages/profile/widgets/profile_option.dart';
@@ -12,7 +13,7 @@ class ProfilePages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorApp.backgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: const AppbarWidgets(
         title: 'Profile',
         showSearchIcon: false,
@@ -29,54 +30,58 @@ class ProfilePages extends StatelessWidget {
               const SizedBox(
                 height: 24,
               ),
-              const ProfilePremium(),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, RoutersName.premiumPages);
+                },
+                child: const ProfilePremium(),
+              ),
               const SizedBox(
                 height: 24,
               ),
               ProfileOption(
-                icon: Icons.person,
+                icon: IconlyBold.profile,
                 title: 'Edit Profile',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, RoutersName.settingPages);
+                },
               ),
               ProfileOption(
-                icon: Icons.notifications,
+                icon: IconlyBold.notification,
                 title: 'Notification',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, RoutersName.notificationPages);
+                },
               ),
               ProfileOption(
-                icon: Icons.download,
+                icon: IconlyBold.download,
                 title: 'Download',
-                onTap: () {},
-              ),
-              ProfileOption(
-                icon: Icons.security,
-                title: 'Security',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, RoutersName.downloadOptionPages);
+                },
               ),
               ProfileOption(
                 icon: Icons.language,
                 title: 'Language',
-                trailing: const Text('English (US)',
-                    style: TextStyle(color: ColorApp.textColor)),
+                trailing: Text(
+                  'English (US)',
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                ),
                 onTap: () {},
               ),
-              ProfileOptionWithSwitch(
+              const ProfileOptionWithSwitch(
                 icon: Icons.dark_mode,
                 title: 'Dark Mode',
-                value: true,
-                onChanged: (value) {},
               ),
               ProfileOption(
-                icon: Icons.help,
-                title: 'Help Center',
-                onTap: () {},
-              ),
-              ProfileOption(
-                icon: Icons.logout,
+                icon: IconlyBold.logout,
                 title: 'Log Out',
                 onTap: () {
                   showModalBottomSheet(
-                      backgroundColor: ColorApp.borderColor,
+                      backgroundColor:
+                          Theme.of(context).scaffoldBackgroundColor,
                       context: context,
                       builder: (context) {
                         return const ProfileLogout();

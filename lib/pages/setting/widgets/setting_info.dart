@@ -5,11 +5,11 @@ class SettingInfo extends StatelessWidget {
   const SettingInfo({
     super.key,
     required this.text,
-    this.icon, // Icon có thể truyền vào hoặc null
+    this.icon,
   });
 
   final String text;
-  final IconData? icon; // Tham số icon có thể null
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +30,9 @@ class SettingInfo extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          if (icon != null) // Kiểm tra nếu icon không phải là null
+          if (icon != null)
             Icon(
-              icon, // Hiển thị icon
+              icon,
               color: ColorApp.textColor,
             ),
         ],

@@ -13,7 +13,7 @@ class LineWidgets extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            height: 1,
+            height: 2,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
               color: ColorApp.borderColor,
@@ -25,9 +25,9 @@ class LineWidgets extends StatelessWidget {
         ),
         Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
-            color: ColorApp.textColor,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
           ),
         ),
         const SizedBox(
@@ -35,7 +35,7 @@ class LineWidgets extends StatelessWidget {
         ),
         Expanded(
           child: Container(
-            height: 1,
+            height: 2,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(100),
               color: ColorApp.borderColor,
