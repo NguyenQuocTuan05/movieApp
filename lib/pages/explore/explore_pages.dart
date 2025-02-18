@@ -20,7 +20,6 @@ class ExplorePages extends StatelessWidget {
         (args as Map<String, dynamic>?)?['isDiscover'] as bool? ?? false;
     final selectedIndices =
         (args)?['selectedIndices'] as Map<String, List<String>>?;
-    print('error ::::$selectedIndices');
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
@@ -31,73 +30,51 @@ class ExplorePages extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        showSearch(
-                          context: context,
-                          delegate: SearchPages(),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 15,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 2.0,
-                            color: ColorApp.borderColor,
-                          ),
-                          borderRadius: BorderRadius.circular(
-                            12,
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/search.png',
-                              height: 19,
-                              color: ColorApp.borderColor,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              'Search',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: ColorApp.borderColor,
-                              ),
-                            ),
-                          ],
+              GestureDetector(
+                onTap: () {
+                  showSearch(
+                    context: context,
+                    delegate: SearchPages(),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 15,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2.0,
+                      color: ColorApp.borderColor,
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      12,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/images/search.png',
+                        height: 19,
+                        color: ColorApp.borderColor,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Text(
+                        'Search',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: ColorApp.borderColor,
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        16,
-                      ),
-                      color: ColorApp.errorColor,
-                    ),
-                    child: const Icon(
-                      IconlyBold.filter,
-                      color: ColorApp.textfieldColor,
-                    ),
-                  ),
-                ],
+                ),
+              ),
+              const SizedBox(
+                width: 10,
               ),
               const SizedBox(
                 height: 30,

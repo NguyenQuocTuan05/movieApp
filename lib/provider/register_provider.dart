@@ -75,4 +75,12 @@ class RegisterProvider extends ChangeNotifier {
     passwordError = null;
     notifyListeners();
   }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
 }

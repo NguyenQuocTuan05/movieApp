@@ -1,7 +1,6 @@
 class SortFilter {
   final Map<String, String> categories = {
     'movie': 'Movie',
-    'tv': 'TvShows',
   };
   final Map<String, String> time_periods = {
     '': 'All periods',

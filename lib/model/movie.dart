@@ -81,8 +81,9 @@ class Movie {
       vote_average:
           map['vote_average'] != null ? map['vote_average'] as double : null,
       overview: map['overview'] != null ? map['overview'] as String : null,
-      release_date: map['release_date'] != null
-          ? DateTime.parse(map['release_date'] as String).year
+      release_date: (map['release_date'] != null &&
+              map['release_date'].toString().isNotEmpty)
+          ? int.tryParse(map['release_date'].toString().split('-')[0])
           : null,
       original_language: map['original_language'] as String?,
       id: map['id'] as int?,

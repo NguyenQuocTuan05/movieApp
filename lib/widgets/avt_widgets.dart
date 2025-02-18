@@ -11,7 +11,7 @@ class AvtWidgets extends StatelessWidget {
         CircleAvatar(
           radius: 50,
           backgroundImage: NetworkImage(
-            'https://via.placeholder.com/150',
+            'https://www.w3schools.com/w3images/avatar1.png',
           ),
         ),
         CircleAvatar(

@@ -23,29 +23,20 @@ class DetailsSynopsis extends StatelessWidget {
           ),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 40,
             ),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    Icons.arrow_back,
-                    color: ColorApp.platformColor,
-                    size: 28,
-                  ),
-                ),
-                const Spacer(),
-                Image.asset(
-                  'assets/images/video.png',
-                  color: ColorApp.platformColor,
-                ),
-              ],
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: const Icon(
+                Icons.arrow_back,
+                color: ColorApp.platformColor,
+                size: 28,
+              ),
             ),
           ],
         ),

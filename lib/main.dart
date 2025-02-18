@@ -26,6 +26,7 @@ import 'package:movie_app/pages/top/top_pages.dart';
 import 'package:movie_app/pages/welcome/welcom_pages.dart';
 import 'package:movie_app/provider/details_provider.dart';
 import 'package:movie_app/provider/download_provider.dart';
+import 'package:movie_app/provider/setting_provider.dart';
 import 'package:movie_app/provider/social_provider.dart';
 import 'package:movie_app/provider/home_provider.dart';
 import 'package:movie_app/provider/mylist_provider.dart';
@@ -83,6 +84,9 @@ void main(List<String> args) async {
         ),
         ChangeNotifierProvider(
           create: (_) => SocialProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SettingProvider(),
         ),
       ],
       child: const MyApp(),

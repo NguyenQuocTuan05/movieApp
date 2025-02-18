@@ -11,6 +11,7 @@ import 'package:movie_app/provider/mylist_provider.dart';
 import 'package:movie_app/widgets/play_widgets.dart';
 import 'package:movie_app/widgets/title_widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeSynopsis extends StatefulWidget {
   const HomeSynopsis({super.key});
@@ -40,7 +41,9 @@ class _HomeSynopsisState extends State<HomeSynopsis> {
       future: _futureMovies,
       builder: (context, movieSnapshot) {
         if (movieSnapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         } else if (movieSnapshot.hasError) {
           return Center(child: Text('Error: ${movieSnapshot.error}'));
         } else if (!movieSnapshot.hasData || movieSnapshot.data!.isEmpty) {

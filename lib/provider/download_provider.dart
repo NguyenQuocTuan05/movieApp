@@ -25,28 +25,28 @@ class DownloadProvider extends ChangeNotifier {
   Future handleSaveList(int id, String name, String poster, String date,
       BuildContext context) async {
     if (ListIdMovie.contains(id)) {
-      _flushbar.show(context, 'The movie "$name" is already saved!');
+      _flushbar.show(context, 'The movie "$name" is already downloaded!');
     } else {
       ListIdMovie.add(id);
       movieNames.add(name);
       moviePosters.add(poster);
       movieDate.add(date);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString(ListFilm.keyListID, jsonEncode(ListIdMovie));
+      await prefs.setString(ListFilm.keyListIdVideo, jsonEncode(ListIdMovie));
       await prefs.setString(ListFilm.keyListNames, jsonEncode(movieNames));
       await prefs.setString(ListFilm.keyListPosters, jsonEncode(moviePosters));
       await prefs.setString(ListFilm.keyListDate, jsonEncode(movieDate));
-      _flushbar.show(context, 'The movie "$name" has been saved!');
+      _flushbar.show(context, 'The movie "$name" has been downloaded!');
       context
           .read<HomeProvider>()
-          .addNotification('The movie "$name" has been saved!');
+          .addNotification('The movie "$name" has been downloaded!');
     }
     notifyListeners();
   }
 
   Future<void> init() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? action = prefs.getString(ListFilm.keyListID);
+    final String? action = prefs.getString(ListFilm.keyListIdVideo);
     final String? names = prefs.getString(ListFilm.keyListNames);
     final String? posters = prefs.getString(ListFilm.keyListPosters);
     final String? date = prefs.getString(ListFilm.keyListDate);
@@ -70,7 +70,7 @@ class DownloadProvider extends ChangeNotifier {
     movieDate.clear();
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove(ListFilm.keyListID);
+    await prefs.remove(ListFilm.keyListIdVideo);
     await prefs.remove(ListFilm.keyListNames);
     await prefs.remove(ListFilm.keyListPosters);
     await prefs.remove(ListFilm.keyListDate);
@@ -89,7 +89,7 @@ class DownloadProvider extends ChangeNotifier {
       movieNames.removeAt(index);
       moviePosters.removeAt(index);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString(ListFilm.keyListID, jsonEncode(ListIdMovie));
+      await prefs.setString(ListFilm.keyListIdVideo, jsonEncode(ListIdMovie));
       await prefs.setString(ListFilm.keyListNames, jsonEncode(movieNames));
       await prefs.setString(ListFilm.keyListPosters, jsonEncode(moviePosters));
       await prefs.setString(ListFilm.keyListDate, jsonEncode(movieDate));

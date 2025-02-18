@@ -38,13 +38,6 @@ class DetailsFilm extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(
-          width: 20,
-        ),
-        Image.asset(
-          'assets/images/send.png',
-          color: Theme.of(context).textTheme.bodyLarge!.color,
-        ),
       ],
     );
   }

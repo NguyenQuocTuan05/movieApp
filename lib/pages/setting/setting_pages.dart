@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/apps/configs/color_app.dart';
+import 'package:movie_app/pages/setting/widgets/setting_drop.dart';
 import 'package:movie_app/pages/setting/widgets/setting_info.dart';
 import 'package:movie_app/pages/setting/widgets/setting_nation.dart';
 import 'package:movie_app/widgets/avt_widgets.dart';
 import 'package:movie_app/widgets/button_widgets.dart';
 
-class SettingPages extends StatelessWidget {
+class SettingPages extends StatefulWidget {
   const SettingPages({super.key});
+
+  @override
+  State<SettingPages> createState() => _SettingPagesState();
+}
+
+class _SettingPagesState extends State<SettingPages> {
+  String gender = 'Male';
+  String country = 'Vietnam';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,47 +37,61 @@ class SettingPages extends StatelessWidget {
           },
         ),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           child: Column(
             children: [
-              AvtWidgets(),
-              SizedBox(height: 24),
-              SettingInfo(text: 'abc'),
-              SizedBox(height: 24),
-              SettingInfo(text: 'afc'),
-              SizedBox(
+              const AvtWidgets(),
+              const SizedBox(height: 24),
+              const SettingInfo(
+                text: 'First Name',
+                fieldType: 'firstName',
+              ),
+              const SizedBox(height: 24),
+              const SettingInfo(
+                text: 'Last Name',
+                fieldType: 'lastName',
+              ),
+              const SizedBox(
                 height: 24,
               ),
-              SettingInfo(
-                text: 'andrew_ainsley@yourdomain.com',
-                icon: Icons.mail,
+              const SettingInfo(
+                text: 'Email',
+                fieldType: 'email',
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
-              SettingNation(),
-              SizedBox(
+              const SettingNation(),
+              const SizedBox(
                 height: 24,
               ),
-              SettingInfo(
-                text: 'Male',
-                icon: Icons.arrow_drop_down,
+              SettingDrop(
+                initialValue: gender,
+                items: const ['Male', 'Female'],
+                onChanged: (String? newGender) {
+                  setState(() {
+                    gender = newGender!;
+                  });
+                },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
-
-              SettingInfo(
-                text: 'United States',
-                icon: Icons.arrow_drop_down,
+              SettingDrop(
+                initialValue: country,
+                items: const ['USA', 'Canada', 'Germany', 'Vietnam'],
+                onChanged: (String? newCountry) {
+                  setState(() {
+                    country = newCountry!;
+                  });
+                },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 60,
               ),
-              // Update Button
-              ButtonWidgets(
+              const ButtonWidgets(
                 buttonText: 'Update',
                 color: ColorApp.platformColor,
               )

@@ -18,14 +18,14 @@ class DetailsList extends StatelessWidget {
       itemCount: movies.length,
       itemBuilder: (BuildContext context, int index) {
         final movie = movies[index];
-        final posterPath = movie['poster_path'];
-        final voteAverage = movie['vote_average'];
-        final title = movie['title'];
-        final genres = movie['genres'];
-        final overview = movie['overview'];
-        final original_language = movie['original_language'];
-        final release_date = movie['release_date'];
-        final id = movie['id'];
+        final posterPath = movie['poster_path'] ?? '';
+        final voteAverage = (movie['vote_average'] as num?)?.toDouble() ?? 0.0;
+        final title = movie['title'] ?? 'Unknown Title';
+        final genres = movie['genres'] ?? [];
+        final overview = movie['overview'] ?? 'No Overview Available';
+        final original_language = movie['original_language'] ?? 'Unknown';
+        final release_date = movie['release_date'] ?? 'Unknown Date';
+        final id = movie['id'] ?? 0;
         final imageFilm = ImageFilm(poster_path: posterPath);
         return GestureDetector(
           onTap: () => Navigator.pushNamed(
